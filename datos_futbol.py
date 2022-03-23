@@ -1,12 +1,13 @@
 import requests
 import bs4
-import re
 from time import sleep
 from pathlib import Path
+from datetime import date    
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:95.0) Gecko/20100101 Firefox/95.0'}
 
 paisesID = ['ARG','BRA','ENG','FRA','USA','GER','MEX','ESP','CHI','COL','PAR','PER','ITA','GRE','JPN','NED','POR','RUS','SCO','TUR','UKR','URU']
+# paisesID = ['ARG']
 
 contenido = '{'
 
@@ -17,17 +18,17 @@ for k in range(len(paisesID)):
 	soup1 = bs4.BeautifulSoup(res1.text, 'html.parser')
 	nombrePais = soup1.select('.heading-component h1')[0].text.lower()
 
-	linksClubes = soup1.select('#allleagues > div.col-lg-8.col-12 > div:nth-child(4) > table > tbody tr')
+	contenidoClubes = soup1.select('#allleagues > div.col-lg-8.col-12 > div:nth-child(4) > table > tbody tr')
 
 	linksEquipos = []
 
-	for i in range(1,len(linksClubes)):
-		linksEquipos.append('https://es.soccerwiki.org'+linksClubes[i].select('a')[0]['href'])
+	for i in range(1,len(contenidoClubes)):
+		linksEquipos.append('https://es.soccerwiki.org'+contenidoClubes[i].select('a')[0]['href'])
 
 	print(' - - - - - - - - - - -\n\n'+nombrePais + ':')
 	contenido += "\"%s\":[ " %(nombrePais)
 
-	# for i in range(0,2): 
+	# for i in range(0,3): 
 	for i in range(len(linksEquipos)):
 		sleep(0.5)
 		res = requests.get(linksEquipos[i],headers=headers)
@@ -41,7 +42,7 @@ for k in range(len(paisesID)):
 		if len(infoEquipo[0].select('a')) != 0:
 			tecnico = infoEquipo[0].select('a')[1].text
 		else:
-			tecnico = 'desconocido'
+			tecnico = 'Sin datos'
 		linkEscudo = soup.select('.player-img img')[0]['data-src']
 		infoEquipo[4].span.decompose()
 		fundacion = infoEquipo[4].text.strip()
@@ -95,13 +96,17 @@ for k in range(len(paisesID)):
 contenido = contenido[:-1]
 contenido += '}'
 
+contenido = contenido.replace('es\":]','es\":[]')
 
-ruta = Path(__file__).parent.resolve().joinpath('datos.json')
-archivo = open(ruta,'w')
+today = date.today().isoformat()
+ruta = Path(__file__).parent.resolve().joinpath('datos_'+today+'.json')
+archivo = open(ruta,'w',encoding='utf-8')
 archivo.write(contenido)
 archivo.close()
-
+ruta = str(ruta)
 print('\nGuardado en: ' +ruta+ '\n')
+
+
 
 
 
