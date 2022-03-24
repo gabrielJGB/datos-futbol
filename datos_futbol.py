@@ -7,9 +7,10 @@ from datetime import date
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:95.0) Gecko/20100101 Firefox/95.0'}
 
 paisesID = ['ARG','BRA','ENG','FRA','USA','GER','MEX','ESP','CHI','COL','PAR','PER','ITA','GRE','JPN','NED','POR','RUS','SCO','TUR','UKR','URU']
-# paisesID = ['ARG']
 
-contenido = '{'
+# paisesID = ['ARG','BRA']
+
+contenido = "{\"paises\":["
 
 for k in range(len(paisesID)):
 	sleep(0.5)
@@ -25,10 +26,16 @@ for k in range(len(paisesID)):
 	for i in range(1,len(contenidoClubes)):
 		linksEquipos.append('https://es.soccerwiki.org'+contenidoClubes[i].select('a')[0]['href'])
 
-	print(' - - - - - - - - - - -\n\n'+nombrePais + ':')
-	contenido += "\"%s\":[ " %(nombrePais)
+	print('-------------------------------------\n'+nombrePais + ':')
+	
+	contenido += """
+		{
+			"pais":"%s",
+			"equipos":[
 
-	# for i in range(0,3): 
+	""" %(nombrePais)
+
+	#for i in range(0,2): 
 	for i in range(len(linksEquipos)):
 		sleep(0.5)
 		res = requests.get(linksEquipos[i],headers=headers)
@@ -91,22 +98,18 @@ for k in range(len(paisesID)):
 		contenido += ']},'
 
 	contenido = contenido[:-1]
-	contenido+='],'
+	contenido+=']},'
 
 contenido = contenido[:-1]
-contenido += '}'
+contenido += ']}'
 
 contenido = contenido.replace('es\":]','es\":[]')
 
-today = date.today().isoformat()
-ruta = Path(__file__).parent.resolve().joinpath('datos_'+today+'.json')
+fecha = date.today().isoformat()
+ruta = Path(__file__).parent.resolve().joinpath('datos_'+fecha+'.json')
 archivo = open(ruta,'w',encoding='utf-8')
 archivo.write(contenido)
 archivo.close()
 ruta = str(ruta)
 print('\nGuardado en: ' +ruta+ '\n')
-
-
-
-
 
