@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="/style.css">
+		<title><%=nombre_equipo%> - <%=pais%> </title>
+	</head>
+	<body>
+		<div class="nav nav-team">
+			<a class="back-button" href="/<%=pais%>"> Volver</a>
+			<h1 class="title-team"><img src="<%=escudo%>" height="140" alt=""><%=nombre_equipo%></h1>
+			<div></div>
+		</div>
+		<div class="club-info">
+			<div>Liga: <%=liga%></div>
+			<div>Tecnico: <%=tecnico%></div>
+			<div>Estadio: <%=estadio%></div>
+			<div>Ciudad: <%=ciudad%></div>
+			<div>Fundación: <%=fundacion%></div>
+
+		</div>
+		<div class="table-container">
+			<table>
+				<thead>
+					<tr>
+						<th>Numero</th>
+						<th>Foto</th>
+						<th>Nombre</th>
+						<th>Posición</th>
+						<th>Origen</th>
+						<th>Edad</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+					<% jugadores.forEach(jugador=>{ %>
+					<tr>
+						
+						<td>
+							<% if (jugador.numero != 0) { -%>
+							<%=jugador.numero%>
+							<% } else { -%>
+							-
+							<% } -%>
+						</td>
+						<td>
+							<img src="<%=jugador.link_foto%>" width="50" height="50" alt="">
+						</td>
+						
+						<td>
+							<%=jugador.nombre%>
+						</td>
+						<td>
+							<%=jugador.posicion_codigo%>
+						</td>
+						<td>
+							<%=jugador.pais%>
+						</td>
+						<td>
+							<%=jugador.edad%>
+						</td>
+						
+						<% })%>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>

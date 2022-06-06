@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="/style.css">
+		<title>Inicio</title>
+	</head>
+	<body>
+
+		<h1 class="main-title">Base de datos de jugadores</h1>
+			
+		
+		<div class="container">
+			<%paises.forEach(pais=>{%>
+			
+			<a class="pais-div" href="/<%=pais.nombre_pais%>" class="pais-link"><%=pais.nombre_pais%>
+				<div class="flag"><img
+					src="https://flagcdn.com/w160/<%=pais.codigo_pais%>.png"
+					width="50"
+					alt="<%=pais.nombre_pais%>">
+				</div>
+			</a>
+			
+			<% }) %>
+		</div>
+
+	</body>
+</html>

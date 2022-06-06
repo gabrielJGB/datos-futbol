@@ -6,7 +6,11 @@ from datetime import date
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:95.0) Gecko/20100101 Firefox/95.0'}
 
+codigoISO3166 = ['ar','br','gb-eng','fr','us','de','mx','es','cl','co','py','pe','it','gr','jp','nl','pt','ru','gb-sct','tr','ua','uy']
+
 paisesID = ['ARG','BRA','ENG','FRA','USA','GER','MEX','ESP','CHI','COL','PAR','PER','ITA','GRE','JPN','NED','POR','RUS','SCO','TUR','UKR','URU']
+ 
+# codigoISO3166 = ['ar','br']
 
 # paisesID = ['ARG','BRA']
 
@@ -17,7 +21,7 @@ for k in range(len(paisesID)):
 	linkPais = "https://es.soccerwiki.org/country.php?countryId=%s" %(paisesID[k])
 	res1 = requests.get(linkPais,headers=headers)
 	soup1 = bs4.BeautifulSoup(res1.text, 'html.parser')
-	nombrePais = soup1.select('.heading-component h1')[0].text.lower()
+	nombrePais = soup1.select('.heading-component h1')[0].text
 
 	contenidoClubes = soup1.select('#allleagues > div.col-lg-8.col-12 > div:nth-child(4) > table > tbody tr')
 
@@ -30,12 +34,13 @@ for k in range(len(paisesID)):
 	
 	contenido += """
 		{
-			"pais":"%s",
+			"nombre_pais":"%s",
+			"codigo_pais":"%s",
 			"equipos":[
 
-	""" %(nombrePais)
+	""" %(nombrePais,codigoISO3166[k])
 
-	#for i in range(0,2): 
+	# for i in range(0,2): 
 	for i in range(len(linksEquipos)):
 		sleep(0.5)
 		res = requests.get(linksEquipos[i],headers=headers)
@@ -80,10 +85,10 @@ for k in range(len(paisesID)):
 			pais = contenidoElemento[i].select('td')[1].select('a')[0]['title']
 			foto = contenidoElemento[i].select('td')[2].select('img')[0]['data-src']
 			posicion = contenidoElemento[i].select('td')[4].select('span')[0]['title']
-			posicion_codigo =  contenidoElemento[i].select('td')[4].select('span')[0].text
+			posicion_codigo = contenidoElemento[i].select('td')[4].select('span')[0].text
 			edad = contenidoElemento[i].select('td')[5].text
 
-			contenido += """
+			contenido += """  
 
 			{"ID":"%s",
 			"nombre":"%s",

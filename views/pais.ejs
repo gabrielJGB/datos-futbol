@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title><%=nombre_pais%></title>
+		<link rel="stylesheet" href="/style.css">
+	</head>
+	<body>
+		<div class="nav">
+			<a class="back-button" href="/">Volver</a>
+			<h1 class="main-title"> <%=nombre_pais%></h1>
+			<div></div>
+		</div>
+		
+		<div class="container">
+			
+			<%  equipos.forEach(equipo=>{ %>
+			
+			<div class="">
+				
+				<a class="equipo-div" href="/<%=nombre_pais%>/<%=equipo.nombre_equipo%>"> <%=equipo.nombre_equipo%>
+					
+					<div class="flag">
+						<img src="<%=equipo.escudo%>" width="50" height="50" alt="Escudo <%=equipo.nombre_equipo%>">
+					</div>
+				</a>
+			</div>
+			<%}) %>
+		</div>
+		
+	</body>
+</html>
