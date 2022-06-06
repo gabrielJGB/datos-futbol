@@ -1,6 +1,5 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const datos = require('./datos_2022-06-05.json')
 const app = express()
 const PORT = process.env.PORT || 3000;
 

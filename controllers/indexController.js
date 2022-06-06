@@ -1,3 +1,5 @@
+const datos = require('../datos_2022-06-05.json')
+
 const index = (req, res) => {
 
     res.render('index', {
@@ -6,7 +8,7 @@ const index = (req, res) => {
 
 }
 
-const mostrarPais = (req, res) => {
+const mostrar_pais = (req, res) => {
 
     datos.paises.forEach(pais => {
 
@@ -20,7 +22,7 @@ const mostrarPais = (req, res) => {
 }
 
 
-const mostrarEquipo = (req, res) => {
+const mostrar_equipo = (req, res) => {
 
     datos.paises.forEach(pais => {
         if (pais.nombre_pais === req.params.pais)
@@ -39,4 +41,12 @@ const mostrarEquipo = (req, res) => {
                         jugadores: equipo.jugadores
                     })
             })
-    }
+    })
+}
+
+
+module.exports = {
+    index,
+    mostrar_pais,
+    mostrar_equipo
+};
